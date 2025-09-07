@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.sql
+*.sqlite
+
+# Node
+node_modules/
+npm-debug.log
+
+# Python (if used later for agents)
+__pycache__/
+*.pyc
+
+# PHP/Laravel (if extended later)
+vendor/
+.env
+.env.backup
+.env.*
+
+# IDE/editor junk
+.vscode/
+.idea/
+*.swp
