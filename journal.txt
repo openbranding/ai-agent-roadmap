@@ -51,3 +51,28 @@ Day 2 - 2025-09-07
 - Successfully pushed repo to GitHub
 - Planned daily update workflow
 
+
+---
+## Day 3: Roadmap Kickoff
+
+**Date:** [Insert today’s date]
+
+### Progress
+- Added `roadmap/week-1.md` with starter sprint goals.
+- Established the first sprint focus (Week 1).
+- Clarified sprint goals: repository setup, journal discipline, and agent design planning.
+- Defined two core agent roles to flesh out this week:
+  1. AI Developer Agent
+  2. AI Content Agent
+
+### Reflections
+Today marks the shift from setup into execution.  
+Instead of just scaffolding, I now have a clear **week-long sprint** that ties into my bigger vision.  
+The feeling is that of building a live organism — each day the repo grows a new piece.
+
+### Next Steps
+- Commit README.md and .gitignore (still pending).
+- Expand details for the AI Developer Agent (Day 4).
+- Expand details for the AI Content Agent (Day 5).
+- Keep journal and roadmap evolving in sync.
+
