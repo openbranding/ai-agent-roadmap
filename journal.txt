@@ -43,3 +43,11 @@ DAY 1 – FOUNDATION SETUP
 -------------------------------
 END OF DAY 1
 -------------------------------
+
+
+---
+Day 2 - 2025-09-07
+- Added README.md and .gitignore
+- Successfully pushed repo to GitHub
+- Planned daily update workflow
+
