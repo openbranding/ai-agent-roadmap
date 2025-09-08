@@ -1,29 +1,30 @@
 <?php
-/**
- * agent_stub.php
- * A simple AI Agent placeholder that logs a fake task.
- */
+// agents/agent_stub.php
+// Simulates an AI agent logging tasks in structured JSON.
 
 date_default_timezone_set('UTC');
 
-// Agent configuration
-$agentName = "DevAgent";   // later we can create ContentAgent, TestAgent, etc.
-$task = $argv[1] ?? "No task provided";  // Allow passing task as command line argument
+$agentName = "DevAgent";
+$task = $argv[1] ?? "No task specified";
 
-// Log directory
-$logDir = __DIR__ . "/../logs";
-if (!is_dir($logDir)) {
-    mkdir($logDir, 0777, true);
+// Define log file path
+$logFile = __DIR__ . "/../logs/agent-log.jsonl";
+
+// Prepare log entry
+$logEntry = [
+    "timestamp" => date('Y-m-d H:i:s'),
+    "agent" => $agentName,
+    "task" => $task,
+    "status" => "completed"
+];
+
+// Ensure logs folder exists
+if (!file_exists(dirname($logFile))) {
+    mkdir(dirname($logFile), 0777, true);
 }
 
-$logFile = $logDir . "/agent-log.txt";
+// Append JSON log entry
+file_put_contents($logFile, json_encode($logEntry) . PHP_EOL, FILE_APPEND);
 
-// Create log entry
-$timestamp = date("Y-m-d H:i:s");
-$entry = "[{$timestamp} | {$agentName}] Task started: {$task}" . PHP_EOL;
-$entry .= "[{$timestamp} | {$agentName}] Task completed: {$task}" . PHP_EOL . PHP_EOL;
-
-// Write log
-file_put_contents($logFile, $entry, FILE_APPEND);
-
-echo "✅ {$agentName} completed task: {$task}" . PHP_EOL;
+// Output to console
+echo "✅ {$agentName} logged task: {$task}\n";
