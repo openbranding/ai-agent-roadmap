@@ -362,3 +362,39 @@ DAY 11 – DEVAGENT POLISH + CONTENTAGENT KICKOFF
 - Save output as Markdown file in `/content/`.
 - Add modal viewer in dashboard for generated docs.
 - Plan cross-agent flow: auto-generate README after DevAgent scaffolds.
+
+
+-------------------------------
+DAY 12 – CONTENTAGENT LOG SUMMARIZER
+-------------------------------
+
+📅 Date: 2025-09-13
+
+✅ Objective:
+- Extend ContentAgent with summarization capabilities.
+- Enable it to parse recent logs and save results into Markdown for review.
+
+🎯 Actions Taken:
+- Implemented ContentAgent.php with `summarizeLastLogs()` method.
+- Added logic to:
+  - Parse the last N entries from agent-log.jsonl.
+  - Format them into Markdown with timestamp, agent, status, and message.
+  - Save output into /content/summary-YYYYMMDD-HHMM.md.
+- Enhanced task handler:
+  - Recognizes “Summarize last X logs” commands.
+  - Falls back to default (10 logs) if no number given.
+- Retained stub for README generation.
+- Each action logs status back into agent-log.jsonl.
+
+📝 Notes:
+- This marks the first expansion of ContentAgent beyond documentation tasks.
+- ContentAgent can now handle analytical/reporting tasks in addition to writing.
+- All tasks remain consistent with the global log schema for auditability.
+
+⚡ Blockers:
+- None. Output saving and logging both confirmed functional.
+
+🔮 Next Steps (Day 13):
+- Add dashboard modal viewer for Markdown outputs.
+- Wire ContentAgent card to list generated summaries.
+- Implement cross-agent flow (DevAgent scaffold → ContentAgent auto-docs).
