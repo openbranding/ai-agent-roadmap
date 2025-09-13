@@ -194,6 +194,37 @@ public function cleanupRoutes()
 		return redirect()->route('agents.index')
 			->with('success', 'Cleanup complete. Removed: ' . (count($removed) ?: 'none'));
 	}
+	
+	public function summaries()
+    {
+        $files = glob($this->contentDir . '/summary-*.md');
+        rsort($files); // latest first
+
+        $summaries = array_map(function ($file) {
+            return [
+                'name' => basename($file),
+                'path' => $file,
+                'time' => date("Y-m-d H:i:s", filemtime($file)),
+            ];
+        }, $files);
+
+        return response()->json($summaries);
+    }
+
+    /**
+     * Load the content of a single summary
+     */
+    public function viewSummary($filename)
+    {
+        $filePath = $this->contentDir . '/' . basename($filename);
+
+        if (!file_exists($filePath)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        $content = file_get_contents($filePath);
+        return response()->json(['name' => basename($filePath), 'content' => $content]);
+    }
 
 
 

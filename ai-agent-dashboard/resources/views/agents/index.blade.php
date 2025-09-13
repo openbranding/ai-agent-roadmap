@@ -32,6 +32,13 @@
                         <button class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#taskModal-{{ $agent['name'] }}">
                             <i class="fas fa-plus"></i> Add Task
                         </button>
+
+                        <!-- Extra: only show summaries button for ContentAgent -->
+                        @if($agent['name'] === 'ContentAgent')
+                            <button class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#summaryModal">
+                                <i class="fas fa-file-alt"></i> View Summaries
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -74,6 +81,12 @@
                                 <button class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#taskModal-{{ $agent['name'] }}">
                                     <i class="fas fa-plus"></i>
                                 </button>
+
+                                @if($agent['name'] === 'ContentAgent')
+                                    <button class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#summaryModal">
+                                        <i class="fas fa-file-alt"></i>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -153,4 +166,60 @@
 </div>
 @endforeach
 
+<!-- ContentAgent Summaries Modal -->
+<div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="summaryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="summaryModalLabel">ContentAgent Summaries</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group mb-3" id="summaryList">
+          <!-- Summaries will load here -->
+        </div>
+        <div id="summaryContent" class="border p-3 bg-light" style="white-space: pre-wrap; font-family: monospace; display:none;"></div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Load summaries when modal opens
+    $('#summaryModal').on('show.bs.modal', function () {
+        $('#summaryList').html('<p>Loading...</p>');
+        $('#summaryContent').hide();
+
+        $.get("{{ route('agents.summaries') }}", function(data) {
+            if (data.length === 0) {
+                $('#summaryList').html('<p>No summaries found.</p>');
+                return;
+            }
+
+            let html = '';
+            data.forEach(file => {
+                html += `<a href="#" class="list-group-item list-group-item-action view-summary" data-name="${file.name}">
+                            ${file.name} <small class="text-muted">(${file.time})</small>
+                         </a>`;
+            });
+            $('#summaryList').html(html);
+        });
+    });
+
+    // Click handler for individual summary
+    $(document).on('click', '.view-summary', function(e) {
+        e.preventDefault();
+        let filename = $(this).data('name');
+
+        $.get(`/agents/summaries/${filename}`, function(res) {
+            $('#summaryContent').show().text(res.content);
+        });
+    });
+});
+</script>
+@endpush
