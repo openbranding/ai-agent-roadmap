@@ -1,27 +1,58 @@
-# OS files
-.DS_Store
+# ============================
+# Laravel & PHP
+# ============================
+/vendor/
+/node_modules/
+.env
+.phpunit.result.cache
+/storage/*.key
+/public/storage
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# ============================
+# IDE / Editor files
+# ============================
+*.idea/
+*.vscode/
+*.DS_Store
 Thumbs.db
 
+# ============================
+# OS generated
+# ============================
+ehthumbs.db
+Desktop.ini
+
+# ============================
+# Agent Roadmap specific
+# ============================
+
+# Backups & exports
+*.bak
+*.zip
+*.tar.gz
+*.csv
+*.json
+*.bat
+
 # Logs
-*.log
-*.sql
-*.sqlite
+logs/*
+!logs/.gitkeep   # keep folder, ignore contents
 
-# Node
-node_modules/
-npm-debug.log
+# Reports / summaries / temp files
+report
+summary.*
+mydata.json
+myfile.csv
 
-# Python (if used later for agents)
-__pycache__/
-*.pyc
+# Ignore AI-generated exports
+exports/*
+!exports/.gitkeep
 
-# PHP/Laravel (if extended later)
-vendor/
-.env
-.env.backup
-.env.*
-
-# IDE/editor junk
-.vscode/
-.idea/
-*.swp
+# ============================
+# Laravel cache / compiled
+# ============================
+/bootstrap/cache/*.php
