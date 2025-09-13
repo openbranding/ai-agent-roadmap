@@ -1,0 +1,5 @@
+date,agent,total,completed,failed,pending,log
+2025-09-08,DevAgent,2,2,0,0,0
+2025-09-08,TOTAL,2,2,0,0,0
+2025-09-11,DevAgent,10,6,2,2,0
+2025-09-11,TOTAL,10,6,2,2,0

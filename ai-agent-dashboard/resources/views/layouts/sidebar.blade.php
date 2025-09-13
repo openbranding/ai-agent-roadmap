@@ -41,14 +41,6 @@
             <span>Settings</span>
         </a>
     </li>
-	
-	<li class="nav-item">
-    <a class="nav-link" href="{{ route('reports.index') }}">
-        <i class="fas fa-clipboard-list"></i>
-        <span>Reports</span>
-    </a>
-</li>
-
 
     <hr class="sidebar-divider d-none d-md-block">
 

@@ -8,12 +8,11 @@
  *   php agents/brainbox.php ContentAgent "Write setup documentation"
  */
 
-// Default timezone
 date_default_timezone_set('UTC');
 
 // Parse CLI arguments
-$agent   = $argv[1] ?? null;
-$task    = $argv[2] ?? null;
+$agent = $argv[1] ?? null;
+$task  = $argv[2] ?? null;
 
 if (!$agent || !$task) {
     echo "⚠️  Usage: php agents/brainbox.php [DevAgent|ContentAgent] \"Task description\"\n";
@@ -27,7 +26,7 @@ if (!in_array($agent, $supportedAgents)) {
     exit(1);
 }
 
-// === LOGGING SYSTEM (reuse same log as agentlog) ===
+// === LOG FIRST ===
 $logFile = __DIR__ . "/../logs/agent-log.jsonl";
 if (!file_exists(dirname($logFile))) {
     mkdir(dirname($logFile), 0777, true);
@@ -40,15 +39,13 @@ $logEntry = [
     "status"    => "dispatched",
     "source"    => "BrainBox"
 ];
-
-// Append to JSON log
 file_put_contents($logFile, json_encode($logEntry) . PHP_EOL, FILE_APPEND);
 
-// === SIMULATED AGENT RESPONSE (placeholder for Phase 2 expansion) ===
-$response = match ($agent) {
-    'DevAgent'     => "✅ {$agent} received task: {$task} (code-related)",
-    'ContentAgent' => "📝 {$agent} received task: {$task} (content-related)",
-    default        => "⚠️ Unknown agent"
-};
-
-echo $response . PHP_EOL;
+// === THEN DISPATCH TO AGENT ===
+$script = __DIR__ . "/{$agent}.php";
+if (file_exists($script)) {
+    $cmd = "php " . escapeshellarg($script) . " " . escapeshellarg($task);
+    passthru($cmd);
+} else {
+    echo "⚠️  {$agent} script not found. Dispatch recorded in logs only.\n";
+}

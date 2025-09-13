@@ -17,3 +17,15 @@
 - [ ] Create a `tools/` folder for helper scripts
 - [ ] Add an error log handler
 - [ ] First experiment: let DevAgent “call” another agent (stub-to-stub)
+
+### End of Week 2 — Polishing Complete ✅
+
+- [x] Agentlog global command
+- [x] Status override (completed/failed/pending)
+- [x] Report with summary-only, since filters
+- [x] Export to CSV/JSON with timestamped names
+- [x] Auto-folder `exports/` for all files
+- [x] Cleanup flag (`--clean-exports`)
+- [x] Journal + roadmap in sync
+
+➡️ Phase 1 is officially done. Next: Phase 2 — Agent Roles + BrainBox orchestration.
