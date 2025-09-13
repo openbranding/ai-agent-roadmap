@@ -1,58 +1,33 @@
-# ============================
-# Laravel & PHP
-# ============================
+# Laravel
 /vendor/
 /node_modules/
-.env
-.phpunit.result.cache
+/.env
 /storage/*.key
 /public/storage
 Homestead.json
 Homestead.yaml
-npm-debug.log
-yarn-error.log
 
-# ============================
-# IDE / Editor files
-# ============================
+# IDE / OS
 *.idea/
 *.vscode/
 *.DS_Store
 Thumbs.db
-
-# ============================
-# OS generated
-# ============================
-ehthumbs.db
 Desktop.ini
 
-# ============================
-# Agent Roadmap specific
-# ============================
-
-# Backups & exports
+# Backups / temp / exports
 *.bak
 *.zip
 *.tar.gz
 *.csv
 *.json
 *.bat
+report
+summary.*
 
 # Logs
 logs/*
-!logs/.gitkeep   # keep folder, ignore contents
+!logs/.gitkeep
 
-# Reports / summaries / temp files
-report
-summary.*
-mydata.json
-myfile.csv
-
-# Ignore AI-generated exports
+# Agent outputs
 exports/*
 !exports/.gitkeep
-
-# ============================
-# Laravel cache / compiled
-# ============================
-/bootstrap/cache/*.php
