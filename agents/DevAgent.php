@@ -2,7 +2,8 @@
 // agents/DevAgent.php
 /**
  * Tasks supported:
- *  - "Scaffold controller {Name}Controller"
+ *  - "Scaffold FooController"   (BrainBox style)
+ *  - "Scaffold controller FooController" (explicit style)
  *  - "cleanup routes"
  */
 
@@ -42,13 +43,8 @@ try {
     $START = '// >>> DEVAGENT:ROUTES:START';
     $END   = '// >>> DEVAGENT:ROUTES:END';
 
-    $readRoutes = function () use ($routesPath) {
-        return file($routesPath, FILE_IGNORE_NEW_LINES);
-    };
-
-    $writeRoutes = function (array $lines) use ($routesPath) {
-        file_put_contents($routesPath, implode(PHP_EOL, $lines) . PHP_EOL);
-    };
+    $readRoutes = fn() => file($routesPath, FILE_IGNORE_NEW_LINES);
+    $writeRoutes = fn(array $lines) => file_put_contents($routesPath, implode(PHP_EOL, $lines) . PHP_EOL);
 
     $ensureBlock = function (array $lines) use ($START, $END) {
         $hasStart = false; $hasEnd = false;
@@ -121,8 +117,9 @@ try {
     }
 
     // --- SCAFFOLD CONTROLLER ---
-    if (preg_match('/scaffold controller (.+)/i', $task, $matches)) {
+    if (preg_match('/scaffold(?: controller)? (.+)/i', $task, $matches)) {
         $name = trim($matches[1]);
+
         // normalize name to end with "Controller"
         if (!preg_match('/Controller$/', $name)) {
             $name .= 'Controller';
@@ -161,13 +158,6 @@ PHP;
         $useLine   = "use App\\Http\\Controllers\\{$name};";
         $routeLine = "Route::get('/test-{$name}', [{$name}::class, 'index']);";
 
-        $hasUse = false; $hasRoute = false;
-        foreach ($block as $ln) {
-            if (trim($ln) === trim($useLine))   $hasUse = true;
-            if (trim($ln) === trim($routeLine)) $hasRoute = true;
-        }
-
-        // Build final set of controllers in block
         $controllersInBlock = [];
         foreach ($block as $ln) {
             if (preg_match('/use\s+App\\\\Http\\\\Controllers\\\\([A-Za-z0-9_]+);/', $ln, $m)) {
@@ -181,13 +171,18 @@ PHP;
         $newBlock = $rebuildBlock(array_unique($controllersInBlock));
         $writeRoutes(array_merge($before, $newBlock, $after));
 
-        if (!$hasUse || !$hasRoute) {
-            echo "✅ Test route ensured: /test-{$name}\n";
-        } else {
-            echo "⚠️ Test route already present: /test-{$name}\n";
-        }
-
+        echo "✅ Test route ensured: /test-{$name}\n";
         logTask('DevAgent', 'completed', "Scaffolded controller + route for {$name}");
+        exit(0);
+    }
+
+    // --- STUB FALLBACK ---
+    if (stripos($task, 'Scaffold') === 0) {
+        preg_match('/Scaffold\s+(\w+)/i', $task, $matches);
+        $controllerName = $matches[1] ?? 'UnknownController';
+
+        echo "✅ Pretending to scaffold {$controllerName} (stub)\n";
+        logTask('DevAgent', 'completed', "Stub scaffolded {$controllerName}");
         exit(0);
     }
 

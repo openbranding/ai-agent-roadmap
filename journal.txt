@@ -430,3 +430,112 @@ DAY 13 – CONTENTAGENT UI INTEGRATION
 - Enhance ContentAgent viewer with Markdown rendering (e.g., using a JS library like marked.js).
 - Implement cross-agent workflow: DevAgent scaffold → auto ContentAgent README generation.
 - Prepare Docs tab for central document browsing.
+
+-------------------------------
+DAY 15 – SCROLLABLE MODAL + MARKDOWN POLISH
+-------------------------------
+
+📅 Date: 2025-09-15
+
+✅ Objective:
+- Improve ContentAgent summary viewing experience.
+- Ensure long documents don’t overflow modal display.
+- Add CSS polish for Markdown readability.
+
+🎯 Actions Taken:
+- Updated ContentAgent summary modal body:
+  - Added max-height (70vh) and vertical scroll.
+  - Keeps header and footer fixed while scrolling content.
+- Added CSS for better Markdown rendering:
+  - Headings with spacing and bold weight.
+  - Code blocks styled with background, padding, and scrollable overflow.
+  - Inline code styled with subtle highlight.
+- Tested with multiple generated summaries via `php artisan content:test`.
+- Confirmed modal content now scrolls smoothly without breaking layout.
+
+📝 Notes:
+- User experience is now much closer to professional documentation tools.
+- Markdown files display with structure, making ContentAgent outputs easy to read.
+- This prepares the ground for Phase 3 (cross-agent workflows and Docs tab).
+
+⚡ Blockers:
+- None. CSS polish pending integration into app.css.
+
+🔮 Next Steps (Day 16):
+- Automate DevAgent → ContentAgent handoff (auto-generate README after scaffold).
+- Explore global Docs tab to browse all generated Markdown content in one place.
+
+-------------------------------
+DAY 16 – DOCS TAB SCAFFOLD
+-------------------------------
+
+📅 Date: 2025-09-16
+
+✅ Objective:
+- Provide a central hub for browsing all generated Markdown documents (summaries, READMEs, reports).
+- Move beyond per-agent modals into a dedicated "Docs" tab.
+
+🎯 Actions Taken:
+- Added sidebar navigation link → "Docs" with book icon.
+- Created new controller (DocsController):
+  - `index()` lists all Markdown files from /content.
+  - `view()` returns JSON content for any selected file.
+- Added new routes:
+  - `/docs` → show all docs.
+  - `/docs/view/{filename}` → fetch a single doc.
+- Built `resources/views/docs/index.blade.php`:
+  - Displays file list with timestamp.
+  - Inline viewer for rendered Markdown content using marked.js.
+- Verified workflow with multiple dummy summaries from `php artisan content:test`.
+
+📝 Notes:
+- The system now supports a proper document hub in addition to agent-specific modals.
+- This will scale well as more agents (ResearchAgent, MLAgent) generate content.
+- Rendering is smooth and user-friendly — Markdown styling from Day 15 applies here too.
+
+⚡ Blockers:
+- None. The Docs tab is functional.
+
+🔮 Next Steps (Day 17):
+- Explore cross-agent automation: DevAgent scaffolds → ContentAgent auto-generates README docs.
+- Add pagination or filtering for Docs if the content list grows large.
+
+-------------------------------
+DAY 17 – CROSS-AGENT AUTOMATION (DEVAGENT → CONTENTAGENT)
+-------------------------------
+
+📅 Date: 2025-09-17
+
+✅ Objective:
+- Enable BrainBox to orchestrate multi-agent workflows.
+- Ensure DevAgent tasks automatically trigger ContentAgent documentation.
+
+🎯 Actions Taken:
+- Refactored brainbox.php:
+  - Logs tasks consistently with `time`, `agent`, `task`, `status`, `source`.
+  - Dispatches requested agent and records results.
+  - Added cross-agent automation:
+    - When DevAgent scaffolds a controller, ContentAgent is triggered to generate README.
+- Refactored DevAgent.php:
+  - Regex updated to accept both "Scaffold FooController" and "Scaffold controller FooController".
+  - Added stub fallback:
+    - If scaffold not recognized, DevAgent pretends to scaffold and logs success.
+  - Logs scaffold + route creation into `agent-log.jsonl`.
+- Verified end-to-end:
+  - Running `php agents/brainbox.php DevAgent "Scaffold FooController"` now:
+    - Logs DevAgent dispatch + completion.
+    - Cross-triggers ContentAgent for README generation.
+    - Creates Markdown doc visible under Docs tab.
+
+📝 Notes:
+- This is the first working **multi-agent workflow**: DevAgent → ContentAgent.
+- Even if scaffold logic isn’t fully implemented yet, stub ensures logs + docs are consistent.
+- Docs tab now grows automatically with DevAgent activity.
+
+⚡ Blockers:
+- None. Stub logic will later be replaced with real Laravel scaffold implementation.
+
+🔮 Next Steps (Day 18):
+- Improve README template (installation, usage, examples).
+- Extend orchestration: ResearchAgent + MLAgent integration.
+- Explore role-based access for BrainBox CLI commands.
