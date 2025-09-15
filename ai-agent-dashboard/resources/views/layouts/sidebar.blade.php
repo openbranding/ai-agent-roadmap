@@ -32,6 +32,14 @@
             <span>Agents</span>
         </a>
     </li>
+	
+	<li class="nav-item">
+    <a class="nav-link" href="{{ route('docs.index') }}">
+        <i class="fas fa-book"></i>
+        <span>Docs</span>
+    </a>
+</li>
+
 
     <hr class="sidebar-divider">
 

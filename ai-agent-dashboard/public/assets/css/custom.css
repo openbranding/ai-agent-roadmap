@@ -1,0 +1,17 @@
+#summaryContent h1, 
+#summaryContent h2, 
+#summaryContent h3 {
+    font-weight: bold;
+    margin-top: 1rem;
+}
+#summaryContent pre {
+    background: #f8f9fa;
+    padding: .5rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+#summaryContent code {
+    background: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 3px;
+}

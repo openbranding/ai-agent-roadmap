@@ -28,3 +28,6 @@ Route::post('/agents/cleanup-routes', [AgentsController::class, 'cleanupRoutes']
 
 Route::get('/agents/summaries', [App\Http\Controllers\AgentsController::class, 'summaries'])->name('agents.summaries');
 Route::get('/agents/summaries/{filename}', [App\Http\Controllers\AgentsController::class, 'viewSummary'])->name('agents.viewSummary');
+
+Route::get('/docs', [App\Http\Controllers\DocsController::class, 'index'])->name('docs.index');
+Route::get('/docs/view/{filename}', [App\Http\Controllers\DocsController::class, 'view'])->name('docs.view');
