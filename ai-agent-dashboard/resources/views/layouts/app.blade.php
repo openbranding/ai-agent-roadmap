@@ -24,8 +24,14 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Markdown renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Yield page-specific scripts -->
+    @stack('scripts')
 </body>
 </html>

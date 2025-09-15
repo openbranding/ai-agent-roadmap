@@ -176,12 +176,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="list-group mb-3" id="summaryList">
-          <!-- Summaries will load here -->
-        </div>
-        <div id="summaryContent" class="border p-3 bg-light" style="white-space: pre-wrap; font-family: monospace; display:none;"></div>
-      </div>
+		<div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+		  <div class="list-group mb-3" id="summaryList">
+			<!-- Summaries will load here -->
+		  </div>
+		  <div id="summaryContent" class="border p-3 bg-light" style="display:none;"></div>
+		</div>
+
     </div>
   </div>
 </div>
@@ -195,7 +196,8 @@ $(document).ready(function() {
         $('#summaryList').html('<p>Loading...</p>');
         $('#summaryContent').hide();
 
-        $.get("{{ route('agents.summaries') }}", function(data) {
+        $.get("/agents/summaries", function(data) {
+
             if (data.length === 0) {
                 $('#summaryList').html('<p>No summaries found.</p>');
                 return;
@@ -217,9 +219,16 @@ $(document).ready(function() {
         let filename = $(this).data('name');
 
         $.get(`/agents/summaries/${filename}`, function(res) {
-            $('#summaryContent').show().text(res.content);
+            let html = marked.parse(res.content);
+            $('#summaryContent').show().html(html);
         });
     });
 });
 </script>
+
+
+
+
 @endpush
+
+
